@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/dhruv/c++/New Proj/build",
+  "command": "C:\\Strawberry\\c\\bin\\g++.exe -I\"C:/Users/dhruv/c++/New Proj/include\" -g -std=gnu++17 -o CMakeFiles\\myprog.dir\\src\\main.cpp.obj -c \"C:\\Users\\dhruv\\c++\\New Proj\\src\\main.cpp\"",
+  "file": "C:\\Users\\dhruv\\c++\\New Proj\\src\\main.cpp",
+  "output": "CMakeFiles\\myprog.dir\\src\\main.cpp.obj"
+}
+]
