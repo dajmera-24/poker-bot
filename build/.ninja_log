@@ -1,3 +1,11 @@
 # ninja log v6
 8	507	7879701258364325	CMakeFiles/myprog.dir/src/main.cpp.obj	7f9e780adde8983d
 508	655	7879701263376845	myprog.exe	e6eaf5f456b42fe2
+7	646	7879987842636036	CMakeFiles/myprog.dir/src/main.cpp.obj	7f9e780adde8983d
+647	834	7879987849028934	myprog.exe	e6eaf5f456b42fe2
+27	642	7879988738485470	CMakeFiles/myprog.dir/src/main.cpp.obj	7f9e780adde8983d
+643	802	7879988744631942	myprog.exe	e6eaf5f456b42fe2
+26	655	7879993606574614	CMakeFiles/myprog.dir/src/main.cpp.obj	7f9e780adde8983d
+656	823	7879993612870942	myprog.exe	e6eaf5f456b42fe2
+29	638	7879993910802164	CMakeFiles/myprog.dir/src/main.cpp.obj	7f9e780adde8983d
+638	793	7879993916897671	myprog.exe	e6eaf5f456b42fe2
