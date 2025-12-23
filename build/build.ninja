@@ -68,7 +68,7 @@ build myprog.exe: CXX_EXECUTABLE_LINKER__myprog_Debug CMakeFiles/myprog.dir/src/
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\myprog.dir
-  POST_BUILD = cd .
+  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D "C:\Users\dhruv\c++\New Proj\build" && C:\Strawberry\c\bin\cmake.exe -E copy_directory "C:/Users/dhruv/c++/New Proj/data" "C:/Users/dhruv/c++/New Proj/build/data""
   PRE_LINK = cd .
   TARGET_FILE = myprog.exe
   TARGET_IMPLIB = libmyprog.dll.a

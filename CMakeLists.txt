@@ -10,6 +10,11 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 # Create executable from all src/ files
 add_executable(myprog ${SOURCES})
 
+add_custom_command(TARGET myprog POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_CURRENT_SOURCE_DIR}/data $<TARGET_FILE_DIR:myprog>/data
+)
+
 # Tell compiler where your include/ headers are
 target_include_directories(myprog PRIVATE 
     include/
