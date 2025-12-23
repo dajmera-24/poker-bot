@@ -1,3 +1,0 @@
-C:/Users/dhruv/c++/New Proj/build/CMakeFiles/myprog.dir
-C:/Users/dhruv/c++/New Proj/build/CMakeFiles/edit_cache.dir
-C:/Users/dhruv/c++/New Proj/build/CMakeFiles/rebuild_cache.dir
