@@ -3,15 +3,12 @@
 # include <vector>
 # include "types.h"
 
-using namespace types;
-using namespace std;
+types::card card_one;
+types::card card_two;
 
-card card_one;
-card card_two;
-
-vector<string> comma_split(const string& s){
-    vector<string> result;
-    string curr;
+std::vector<std::string> comma_split(const std::string& s){
+    std::vector<std::string> result;
+    std::string curr;
 
     for (char c : s) {
         if (c == ',') {
@@ -38,22 +35,22 @@ bool check_validity() {
 
 int main() {
     types::hands my_hand = types::hands::FLUSH;
-    string line;
-    cout << "Enter the numeric value of first card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
-    cin >> line;
-    vector<string> temp = comma_split(line);
+    std::string line;
+    std::cout << "Enter the numeric value of first card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
+    std::cin >> line;
+    std::vector<std::string> temp = comma_split(line);
     int suit = stoi(temp.back());
     temp.pop_back();
     int val = stoi(temp.back());
-    card_one = card{val, suit};
+    card_one = types::card{val, suit};
 
-    cout << "Enter the numeric value of second card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
-    cin >> line;
+    std::cout << "Enter the numeric value of second card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
+    std::cin >> line;
     temp = comma_split(line);
     suit = stoi(temp.back());
     temp.pop_back();
     val = stoi(temp.back());
-    card_two = card{val, suit};
+    card_two = types::card{val, suit};
 
-    if (!check_validity()) {throw invalid_argument("Such a combination of cards cannot exist.");}
+    if (!check_validity()) {throw std::invalid_argument("Such a combination of cards cannot exist.");}
 }

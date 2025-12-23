@@ -52,7 +52,7 @@ build cmake_object_order_depends_target_myprog: phony || .
 build CMakeFiles/myprog.dir/src/main.cpp.obj: CXX_COMPILER__myprog_unscanned_Debug C$:/Users/dhruv/c++/New$ Proj/src/main.cpp || cmake_object_order_depends_target_myprog
   DEP_FILE = CMakeFiles\myprog.dir\src\main.cpp.obj.d
   FLAGS = -g -std=gnu++17
-  INCLUDES = -I"C:/Users/dhruv/c++/New Proj/include"
+  INCLUDES = -I"C:/Users/dhruv/c++/New Proj/include" -I"C:/Users/dhruv/c++/New Proj/eigen-5.0.0"
   OBJECT_DIR = CMakeFiles\myprog.dir
   OBJECT_FILE_DIR = CMakeFiles\myprog.dir\src
 

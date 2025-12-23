@@ -11,4 +11,7 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 add_executable(myprog ${SOURCES})
 
 # Tell compiler where your include/ headers are
-target_include_directories(myprog PRIVATE include/)
+target_include_directories(myprog PRIVATE 
+    include/
+    eigen-5.0.0/
+)
