@@ -10,4 +10,4 @@ The preliminary implementation of this bot utilizes the Chen Formula to dictate 
 
 ![Chen Values of All Starting Hands](./figures/st_hnd_chn_scrs.png)
 
-The .py script used to generate this heatmap, along with the .csv file of all of these values can be found in the aux_files subdirectory.
+The .py script used to generate this heatmap, along with the .csv file of all of these values can be found in the aux_scripts subdirectory.
