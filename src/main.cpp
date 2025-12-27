@@ -1,4 +1,6 @@
 # include <iostream>
+# include <fstream>
+# include <sstream>
 # include <string>
 # include <vector>
 # include "types.h"
@@ -12,18 +14,19 @@ std::vector<double> bets;
 std::vector<bool> in_game;
 std::vector<int> positions; //may not need to store this, as all other players positions can be determined using curr_pos + i modulo n
 std::vector<game::player> players;
+std::vector<std::vector<double>> chen_table;
 double curr_bet;
 int n; //number of players sitting at the table
 int curr_pos;
 int rounds;
 
-
-std::vector<std::string> comma_split(const std::string& s){
+/*Poker playing agent receives input of current pot size and previous bets at each iteration*/
+std::vector<std::string> line_split(const std::string& s, const char delim){
     std::vector<std::string> result;
     std::string curr;
 
     for (char c : s) {
-        if (c == ',') {
+        if (c == delim) {
             result.push_back(curr);
             curr.clear();
         }
@@ -33,6 +36,35 @@ std::vector<std::string> comma_split(const std::string& s){
     if (!curr.empty()) {result.push_back(curr);}
 
     return result;
+}
+
+/*If r < c, then the cards are suited. When r >= c, they are offsuit (includes pocket pairs)*/
+void chen_init() {
+    chen_table = std::vector<std::vector<double>>(13, std::vector<double>(13));
+    std::ifstream inputFile("data/start_hands_pflop_vals.csv");
+    if (!inputFile.is_open()) {
+        std::cerr << "Error: cannot open the file." << std::endl;
+    }
+    std::string line;
+
+    std::getline(inputFile, line);
+
+    while(std::getline(inputFile, line)) {
+        std::stringstream ss(line);
+        std::string s1,s2;
+
+        std::getline(ss, s1, ',');
+        std::getline(ss, s2, ',');
+
+        std::vector<std::string> seq = line_split(s1, ';');
+        int score = std::stod(s2);
+        seq.pop_back();
+        int col = std::stoi(seq.back());
+        seq.pop_back();
+        int row = std::stoi(seq.back());
+        chen_table[row-2][col-2] = score;
+    }
+    inputFile.close();
 }
 
 bool check_validity() {
@@ -46,6 +78,7 @@ bool check_validity() {
 }
 
 int main() {
+    chen_init();
     // Initial game setup module
     std::cout << "Enter the starting stack size in dollars. >>>";
     std::cin >> stack_size;
@@ -57,7 +90,7 @@ int main() {
 
     std::cout << "Enter the number of players at the table. >>>";
     std::cin >> n;
-    if (n < 0) {throw std::invalid_argument("Such a number of players cannot exist.");}
+    if (n < 0 || n > 9) {throw std::invalid_argument("Such a number of players cannot exist.");}
 
     std::cout << "Enter the starting position at the table (place in line to play, where UTG is 1). There are as many positions as there are players. >>>";
     std::cin >> curr_pos;
@@ -68,13 +101,14 @@ int main() {
         if (i == curr_pos) {players[i] = game::player{true, i, stack_size};}
         players[i] = game::player{false, i, stack_size};
     }
+    bets = std::vector<double>(n);
 
 
     // Preflop play module
     std::string line;
     std::cout << "Enter the numeric value of first card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
     std::cin >> line;
-    std::vector<std::string> temp = comma_split(line);
+    std::vector<std::string> temp = line_split(line, ',');
     int suit = stoi(temp.back());
     temp.pop_back();
     int val = stoi(temp.back());
@@ -82,7 +116,7 @@ int main() {
 
     std::cout << "Enter the numeric value of second card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
     std::cin >> line;
-    temp = comma_split(line);
+    temp = line_split(line, ',');
     suit = stoi(temp.back());
     temp.pop_back();
     val = stoi(temp.back());
