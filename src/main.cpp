@@ -3,22 +3,34 @@
 # include <sstream>
 # include <string>
 # include <vector>
+# include <algorithm>
 # include "types.h"
 # include "player.h"
 
+/*Private player cards*/
 types::card card_one;
 types::card card_two;
+
+/*Community cards*/
+types::card flop_one;
+types::card flop_two;
+types::card flop_three;
+types::card turn;
+types::card river;
+
+/*Ingame metrics*/
 double stack_size;
 double big_blind;
 std::vector<double> bets;
-std::vector<bool> in_game;
 std::vector<int> positions; //may not need to store this, as all other players positions can be determined using curr_pos + i modulo n
 std::vector<game::player> players;
-std::vector<std::vector<double>> chen_table;
 double curr_bet;
 int n; //number of players sitting at the table
 int curr_pos;
 int rounds;
+
+/*Betting logic*/
+std::vector<std::vector<double>> chen_table; //cards are mapped to the index v-2, where v is the value of the card (2-14)
 
 /*Poker playing agent receives input of current pot size and previous bets at each iteration*/
 std::vector<std::string> line_split(const std::string& s, const char delim){
@@ -79,7 +91,7 @@ bool check_validity() {
 
 int main() {
     chen_init();
-    // Initial game setup module
+    /* Initial game setup module */
     std::cout << "Enter the starting stack size in dollars. >>>";
     std::cin >> stack_size;
     if (stack_size < 0) {throw std::invalid_argument("Stack size cannot be negative.");}
@@ -103,24 +115,27 @@ int main() {
     }
     bets = std::vector<double>(n);
 
+    /* Condition for continuing to play the game: our player must be in and at least one other player must be in as well */
+    while (players[curr_pos].in_game && std::any_of(players.begin(), players.end(), [&](const auto& p) {return &p != &players[curr_pos] && p.in_game})) {
+        
+        /*Preflop play module*/
+        std::string line;
+        std::cout << "Enter the numeric value of first card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
+        std::cin >> line;
+        std::vector<std::string> temp = line_split(line, ',');
+        int suit = stoi(temp.back());
+        temp.pop_back();
+        int val = stoi(temp.back());
+        card_one = types::card{val, suit};
 
-    // Preflop play module
-    std::string line;
-    std::cout << "Enter the numeric value of first card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
-    std::cin >> line;
-    std::vector<std::string> temp = line_split(line, ',');
-    int suit = stoi(temp.back());
-    temp.pop_back();
-    int val = stoi(temp.back());
-    card_one = types::card{val, suit};
+        std::cout << "Enter the numeric value of second card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
+        std::cin >> line;
+        temp = line_split(line, ',');
+        suit = stoi(temp.back());
+        temp.pop_back();
+        val = stoi(temp.back());
+        card_two = types::card{val, suit};
 
-    std::cout << "Enter the numeric value of second card and suit, comma separated. Ace = 14, Spades = 1, Clubs = 2, Diamonds = 3, Hearts = 4. >>> ";
-    std::cin >> line;
-    temp = line_split(line, ',');
-    suit = stoi(temp.back());
-    temp.pop_back();
-    val = stoi(temp.back());
-    card_two = types::card{val, suit};
-
-    if (!check_validity()) {throw std::invalid_argument("Such a combination of cards cannot exist.");}
+        if (!check_validity()) {throw std::invalid_argument("Such a combination of cards cannot exist.");}
+    }
 }
