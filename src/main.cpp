@@ -4,6 +4,7 @@
 # include <string>
 # include <vector>
 # include <algorithm>
+# include <cmath>
 # include "types.h"
 # include "player.h"
 
@@ -104,7 +105,7 @@ int main() {
     std::cin >> n;
     if (n < 0 || n > 9) {throw std::invalid_argument("Such a number of players cannot exist.");}
 
-    std::cout << "Enter the starting position at the table (place in line to play, where UTG is 1). There are as many positions as there are players. >>>";
+    std::cout << "Enter the starting position at the table (place in line to play preflop, where UTG is 1). There are as many positions as there are players. >>>";
     std::cin >> curr_pos;
     if (curr_pos > n || curr_pos < 0) {throw std::invalid_argument("Such a position cannot exist.");}
 
@@ -137,5 +138,20 @@ int main() {
         card_two = types::card{val, suit};
 
         if (!check_validity()) {throw std::invalid_argument("Such a combination of cards cannot exist.");}
+        
+        int chen_val;
+        if (card_one.suit == card_two.suit) {chen_val = chen_table[std::min(card_one.value, card_two.value)-2][std::max(card_one.value, card_two.value)-2];}
+        else {chen_val = chen_table[std::max(card_one.value, card_two.value) - 2][std::min(card_one.value, card_two.value) - 2];}
+
+        // Heuristic of benefit from betting late; aligns with the notion of bb and sb wanting to play, as they are already partially invested
+        // f(1) = 1 (UTG), f(n) = 1.5 (BB)
+        double multiplier = std::pow(1.5,(curr_pos-1)/(n-1));
+        double preflop_score = chen_val * multiplier;
+
+        // Cutoff determinants for preflop actions based on score: fold, limp, raise
+        // Raises will have their own multiplier determined by how much the score exceeds the threshold (how many BB?)
     }
+
+
+    return 0;
 }
