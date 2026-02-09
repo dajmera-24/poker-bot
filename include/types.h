@@ -1,6 +1,5 @@
 #pragma once
 # include <string>
-# include <Eigen/Dense>
 
 namespace types{
     // All possible poker hands
@@ -14,8 +13,4 @@ namespace types{
             return value == other.value && suit == other.suit;
         }
     };
-}
-
-namespace tables{
-    Eigen::Matrix<float, 13, 13> init_hands;
 }
